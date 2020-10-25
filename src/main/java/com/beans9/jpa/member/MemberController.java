@@ -2,6 +2,8 @@ package com.beans9.jpa.member;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,19 @@ import lombok.RequiredArgsConstructor;
 public class MemberController {
 	private final MemberService memberService;
 
+	@PostConstruct
+	private void init() {
+		MemberDto member = new MemberDto();
+		member.setName("a");
+		member.setAddress("a");
+		saveMember(member);
+
+		MemberDto member1 = new MemberDto();
+		member.setName("b");
+		member.setAddress("b");
+		saveMember(member1);
+	}
+
 	@GetMapping
 	public List<Member> selectMembers() {
 		return memberService.selectMembers();
@@ -32,12 +47,12 @@ public class MemberController {
 	}
 
 	@PostMapping
-	public Member saveMember(@RequestBody Member member) {
+	public Member saveMember(@RequestBody MemberDto member) {
 		return memberService.saveMember(member);
 	}
 
 	@PutMapping("/{id}")
-	public Member updateMember(@PathVariable Long id, @RequestBody Member member) {
+	public Member updateMember(@PathVariable Long id, @RequestBody MemberDto member) {
 		return memberService.updateMember(id, member);
 	}
 

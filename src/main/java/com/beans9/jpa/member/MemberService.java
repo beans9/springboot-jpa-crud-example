@@ -18,8 +18,8 @@ public class MemberService {
 		return memberRepo.findById(id).orElseThrow(IllegalArgumentException::new);
 	}
 
-	public Member saveMember(Member member) {
-		return memberRepo.save(member);
+	public Member saveMember(MemberDto member) {
+		return memberRepo.save(member.toEntity());
 	}
 
 	public void deleteMember(Long id) {
@@ -27,7 +27,7 @@ public class MemberService {
 	}
 
 	@Transactional
-	public Member updateMember(Long id, Member member) {
+	public Member updateMember(Long id, MemberDto member) {
 		Member memberData = memberRepo.findById(id).orElseThrow(IllegalArgumentException::new);
 		memberData.update(member.getName(), member.getAddress());
 		return memberData;
